@@ -33,15 +33,16 @@ app.use(express.static(__dirname + '/public'));
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
-var env = appEnv.getServices();
+/*var env = appEnv.getServices();
 console.log(JSON.stringify(env));
 var mongo = env.mongo.credentials
 
-console.log(JSON.stringify(mongo));
+console.log(JSON.stringify(mongo));*/
 
 
 
 var conn_str = "mongodb://mind-flows-db:3000/flows";
+//var conn_str = "mongodb://localhost:27017/flows";
 /*if (mongo) {
     if (mongo.uri) {
       conn_str = 'mongodb://'+mongo.uri+':'+mongo.port;
@@ -59,7 +60,7 @@ MongoClient.connect(conn_str, function(err, database) {
 }); 
 
 
-/*app.get('/api/insertMessage', function (req, res) {
+app.get('/api/insertMessage', function (req, res) {
   var message = { 'message': 'Hello, Bluemix', 'ts': new Date() };
   if (db && db !== "null" && db !== "undefined") {
     db.collection('messages').insert(message, {safe:true}, function(err){
@@ -107,7 +108,7 @@ app.get('/api/render', function (req, res) {
     res.write('No mongo found');
     res.end();  
   }
-});*/
+});
 
 
 

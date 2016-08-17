@@ -36,7 +36,7 @@ var appEnv = cfenv.getAppEnv();
 var env = appEnv.getServices();
 var mongo = env['user-provided'][0]['credentials'];
 
-console.log(JSON.stringify(mongo);
+console.log(JSON.stringify(mongo));
 
 var conn_str = "";
 if (mongo) {

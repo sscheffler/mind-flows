@@ -36,14 +36,14 @@ var appEnv = cfenv.getAppEnv();
 var env = appEnv.getServices();
 console.log(JSON.stringify(env));
 console.log(JSON.stringify(env.mongo.credentials));
-var mongo = env.mongo.credentials;
+var mongo = env.mongo.credentials
 
 console.log(JSON.stringify(mongo));
 
 var conn_str = "";
 if (mongo) {
     if (mongo.url) {
-      conn_str = mongo.url;
+      conn_str = 'mongodb://'+mongo.uri+':'+mongo.port;
     } else {
       console.log("No mongo found");
     }  

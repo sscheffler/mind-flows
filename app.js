@@ -34,7 +34,9 @@ app.use(express.static(__dirname + '/public'));
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 var env = appEnv.getServices();
-var mongo = env['user-provided'][0]['credentials'];
+console.log(JSON.stringify(env));
+console.log(JSON.stringify(env['user-provided']));
+/*var mongo = env['user-provided'][0]['credentials'];
 
 console.log(JSON.stringify(mongo));
 

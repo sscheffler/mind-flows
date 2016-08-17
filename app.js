@@ -12,6 +12,7 @@ var express = require('express');
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
 var mongo = process.env.VCAP_SERVICES;
+var MongoClient = require('mongodb').MongoClient;
 
 // create a new express server
 var app = express();
@@ -32,35 +33,30 @@ app.use(express.static(__dirname + '/public'));
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
-console.log(JSON.stringify(appEnv.getServices()));
+var env = appEnv.getServices();
+var mongo = env['user-provided'][0]['credentials'];
 
+console.log(JSON.stringify(mongo);
 
-/*var conn_str = "";
+var conn_str = "";
 if (mongo) {
-  var env = JSON.parse(mongo);
-  if (env['mongodb-2.4']) {
-    mongo = env['mongodb-2.4'][0]['credentials'];
     if (mongo.url) {
       conn_str = mongo.url;
     } else {
       console.log("No mongo found");
     }  
-  } else {
-    conn_str = 'mongodb://localhost:27017';
-  }
-} else {
-  conn_str = 'mongodb://localhost:27017';
 }
 
-var MongoClient = require('mongodb').MongoClient;
+
 var db; 
 MongoClient.connect(conn_str, function(err, database) {
   if(err) throw err;
   db = database;
+  console.log('connection established');
 }); 
 
 
-app.get('/api/insertMessage', function (req, res) {
+/*app.get('/api/insertMessage', function (req, res) {
   var message = { 'message': 'Hello, Bluemix', 'ts': new Date() };
   if (db && db !== "null" && db !== "undefined") {
     db.collection('messages').insert(message, {safe:true}, function(err){

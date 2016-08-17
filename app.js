@@ -14,6 +14,12 @@ var cfenv = require('cfenv');
 
 // create a new express server
 var app = express();
+pp.get('/api', function (req, res) {
+  res.write('Two APIs are provided: "/api/insertMessage" and "/api/render"' + "\n"
+    + 'When "/api/insertMessage" is called, messages will be written to database' + "\n"
+    + 'When "/api/render" is called, the inserted message will be shown');
+  res.end();	
+});
 
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));

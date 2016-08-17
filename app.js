@@ -41,7 +41,7 @@ console.log(JSON.stringify(mongo));*/
 
 
 
-var conn_str = "mongodb://mind-flows-db:3000/flows";
+var conn_str = "mongodb://user:user@ds161225.mlab.com:61225/minddb";
 //var conn_str = "mongodb://localhost:27017/flows";
 /*if (mongo) {
     if (mongo.uri) {

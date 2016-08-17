@@ -42,7 +42,7 @@ console.log(JSON.stringify(mongo));
 
 var conn_str = "";
 if (mongo) {
-    if (mongo.url) {
+    if (mongo.uri) {
       conn_str = 'mongodb://'+mongo.uri+':'+mongo.port;
     } else {
       console.log("No mongo found");

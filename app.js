@@ -35,19 +35,20 @@ app.use(express.static(__dirname + '/public'));
 var appEnv = cfenv.getAppEnv();
 var env = appEnv.getServices();
 console.log(JSON.stringify(env));
-console.log(JSON.stringify(env.mongo.credentials));
 var mongo = env.mongo.credentials
 
 console.log(JSON.stringify(mongo));
 
-var conn_str = "";
-if (mongo) {
+
+
+var conn_str = "mongodb://mind-flows-db:3000/flows";
+/*if (mongo) {
     if (mongo.uri) {
       conn_str = 'mongodb://'+mongo.uri+':'+mongo.port;
     } else {
       console.log("No mongo found");
     }  
-}
+}*/
 
 
 var db; 

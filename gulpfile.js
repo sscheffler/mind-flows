@@ -51,7 +51,7 @@ gulp.task(tasks.clean, function () {
     return del([paths.dist]);
 });
 
-var baseTranspileFiles = ['./app.ts', 'server/**/*.ts'];
+var baseTranspileFiles = ['./app.ts', 'server/**/*.ts', 'model/model.ts'];
 gulp.task(tasks.transpile, function () {
     gutil.log('Transpiling typescript files');
     var tsProject = ts.createProject('./tsconfig.json');

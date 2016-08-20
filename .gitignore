@@ -4,5 +4,5 @@ typings/
 .idea/
 *.iml
 **/*.map
-**/*.js
+
 **/*.log

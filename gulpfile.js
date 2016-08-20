@@ -76,7 +76,7 @@ gulp.task(tasks.moveFiles, function () {
  * $ gulp server
  * description: launch the server. If there's a server already running, kill it.
  */
-gulp.task(tasks.node, function () {
+/*/ gulp.task(tasks.node, function () {
     if (node) {
         gutil.log('Killing node!');
         node.kill();
@@ -87,7 +87,7 @@ gulp.task(tasks.node, function () {
             gutil.log('Error detected, waiting for changes...');
         }
     });
-});
+});*/
 
 gulp.task(tasks.build, function () {
     gutil.log('Building environment');

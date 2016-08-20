@@ -5,3 +5,4 @@ typings/
 *.iml
 **/*.map
 **/*.js
+**/*.log

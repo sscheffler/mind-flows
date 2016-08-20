@@ -3,21 +3,24 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "gulp",
-    "start": "node app.js"
+    "build": "gulp build",
+    "start": "gulp node"
   },
   "dependencies": {
+    "cfenv": "1.0.x",
+    "express": "^4.13.4",
     "mongodb": "~2.0.25",
-    "express": "4.13.x",
-    "cfenv": "1.0.x"
+    "winston": "^2.2.0"
   },
   "repository": {},
   "engines": {
     "node": "4.x"
   },
   "devDependencies": {
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
     "gulp-notify": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",

@@ -52,6 +52,7 @@ export class User implements IId, Stakeholder{
   email: string;
   login: string;
   passwd: string;
+  gravatarUrl: string;
   deactivated: boolean = false;
   flows: Array<KnowledgeFlow> = [];
   constructor(email: string, login: string, passwd: string) {

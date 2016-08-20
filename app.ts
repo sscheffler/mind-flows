@@ -9,9 +9,12 @@ let config: IServerConfig = appEnv && {port: appEnv.port, host: '0.0.0.0'};
 
 if(config){
   DefaultServer.bootstrap(config)
-  .registerRouter('/api/', require('./server/api/'))
-  // .registerRouter('/api/graylog', require('./api/graylog/'))
-    .listen();
+    .registerRouter('/api/', require('./server/api/'))
+    .registerRouter('/api/admin/', require('./server/api/admin/'))
+    .registerRouter('/api/user/', require('./server/api/user'))
+    .registerRouter('/api/mindflow/', require('./server/api/mind-flow'))
+    .registerRouter('/api/concept/', require('./server/api/concept'))
+  .listen();
 } else {
   logger.error("Config could not be built. No server was started!")
 }

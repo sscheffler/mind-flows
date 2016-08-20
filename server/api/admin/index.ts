@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import express = require('express');
 import {json} from 'body-parser';
 
@@ -9,17 +9,14 @@ var router = express.Router()
 
 router.route('/')
   .get(function (req, res) {
-    res.json({message: 'Will show the endpoints'});
+    res.json({message: 'Return administrator'});
     res.end();
   });
 
-router.route('/authenticate')
-  .post(function (req, res) {
-    res.json({message: 'Will authenticate'});
+router.route('/deactivate/:userId/:deactivate')
+  .put(function (req, res) {
+    res.json({message: 'Will activate / deactivate user'});
     res.end();
   });
-
-
-
 
 module.exports = router;

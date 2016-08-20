@@ -9,7 +9,7 @@ let config: IServerConfig = appEnv && {port: appEnv.port, host: '0.0.0.0'};
 
 if(config){
   DefaultServer.bootstrap(config)
-  // .registerRouter('/api/config', require('./api/config/'))
+  .registerRouter('/api/', require('./server/api/'))
   // .registerRouter('/api/graylog', require('./api/graylog/'))
     .listen();
 } else {

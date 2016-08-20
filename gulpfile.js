@@ -61,7 +61,7 @@ gulp.task(tasks.transpile, function () {
         .pipe(babel()) // from ES6 to ES5
         .pipe(sourcemaps.write())
         .on('error', handleError)
-        .pipe(gulp.dest(paths.dist));
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task(tasks.moveFiles, function () {
@@ -81,7 +81,7 @@ gulp.task(tasks.node, function () {
         gutil.log('Killing node!');
         node.kill();
     }
-    node = spawn('node', [paths.dist + '/app.js'], {stdio: 'inherit'});
+    node = spawn('node', ['./app.js'], {stdio: 'inherit'});
     node.on('close', function (code) {
         if (code === 8) {
             gutil.log('Error detected, waiting for changes...');
@@ -92,8 +92,6 @@ gulp.task(tasks.node, function () {
 gulp.task(tasks.build, function () {
     gutil.log('Building environment');
     runSequence(
-        tasks.clean,
-        tasks.moveFiles,
         tasks.transpile);
 });
 

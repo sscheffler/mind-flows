@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "gulp build",
-    "start": "gulp node"
+    "start": "node dist/app.js"
   },
   "dependencies": {
     "cfenv": "1.0.x",

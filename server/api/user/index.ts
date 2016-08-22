@@ -1,7 +1,7 @@
 "use strict";
 import express = require('express');
 import {json} from 'body-parser';
-
+import {UserController} from "./user-controller"
 
 //noinspection TypeScriptValidateTypes
 var router = express.Router()
@@ -18,10 +18,7 @@ router.route('/')
   });
 
 router.route('/:userId')
-  .get(function (req, res) {
-    res.json({message: 'get certain user'});
-    res.end();
-  })
+  .get( (req, res) => UserController.findById(req, res) )
   .put(function (req, res) {
     res.json({message: 'update user'});
     res.end();

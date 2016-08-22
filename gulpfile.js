@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     del = require('del'),
     spawn = require('child_process').spawn,
+    browserSync = require('browser-sync').create(),
     node
     ;
 
@@ -52,6 +53,7 @@ gulp.task(tasks.clean, function () {
 });
 
 var baseTranspileFiles = ['./app.ts', 'server/**/*.ts', 'model/model.ts'];
+var baseBrowserSyncFiles = ['./app.js', 'server/**/*.js', 'model/model.js'];
 gulp.task(tasks.transpile, function () {
     gutil.log('Transpiling typescript files');
     var tsProject = ts.createProject('./tsconfig.json');
@@ -76,7 +78,7 @@ gulp.task(tasks.moveFiles, function () {
  * $ gulp server
  * description: launch the server. If there's a server already running, kill it.
  */
-/*/ gulp.task(tasks.node, function () {
+gulp.task(tasks.node, function () {
     if (node) {
         gutil.log('Killing node!');
         node.kill();
@@ -87,7 +89,7 @@ gulp.task(tasks.moveFiles, function () {
             gutil.log('Error detected, waiting for changes...');
         }
     });
-});*/
+});
 
 gulp.task(tasks.build, function () {
     gutil.log('Building environment');
@@ -95,12 +97,35 @@ gulp.task(tasks.build, function () {
         tasks.transpile);
 });
 
+gulp.task(tasks.watch, function () {
+    gulp.watch(baseTranspileFiles, [tasks.transpile]);
+});
+
+gulp.task(tasks.browserSync,[] , function () {
+    var files = [
+        paths.dist + '/**/*'
+    ];
+
+    browserSync.init(null, {
+        proxy: "http://localhost:6001/",
+        files: files,
+        browser: "firefox",
+        port: 6002
+    });
+
+    // Watch any files in dist/, reload on change
+    /*gulp.watch(baseBrowserSyncFiles)
+        .on('change', browserSync.reload);*/
+    gulp.watch(baseBrowserSyncFiles)
+        .on('change', function(){ gulp.run(tasks.node) });
+});
+
 
 /**
  * default task - builds the environment: mainly for calling in bluemix
  */
 gulp.task(tasks.default, function () {
-    // runSequence();
+    runSequence(tasks.node, tasks.watch, tasks.browserSync);
 });
 
 //---------------------privates----------------------------

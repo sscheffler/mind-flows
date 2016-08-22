@@ -7,8 +7,8 @@ var UserController = {
 
   findById: function(req: any, res: any){
     let id = req.params.userId;
-    logger.debug(`Search for user: ${id}`);
-    MongoUser.find({ _id: id }, function(err: any, user: User){
+    logger.debug(`Search for user : ${id}`);
+    MongoUser.findOne({ _id: id }, function(err: any, user: User){
       if (err) return console.error(err);
       res.json(user);
       res.end();

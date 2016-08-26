@@ -8,7 +8,13 @@ mongoose.connect(conn_str);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-var userSchema = mongoose.Schema({email: String, login: String, passwd: String});
+var userSchema = mongoose.Schema({
+  email: String,
+  login: String,
+  passwd: String,
+  gravatarUrl: String,
+  deactivated: String
+});
 var MongoUser = mongoose.model("User", userSchema);
 
 

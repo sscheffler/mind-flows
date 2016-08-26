@@ -12,10 +12,7 @@ router.route('/')
     res.json({message: 'Return all users'});
     res.end();
   })
-  .post(function (req, res) {
-    res.json({message: 'Create User'});
-    res.end();
-  });
+  .post((req, res) => UserController.create(req, res));
 
 router.route('/:userId')
   .get( (req, res) => UserController.findById(req, res) )
@@ -28,5 +25,9 @@ router.route('/:userId')
     res.end();
   })
 ;
+router.route('/email/exists/:email')
+  .get( (req, res) => UserController.emailExists(req, res) )
+;
+
 
 module.exports = router;

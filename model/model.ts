@@ -62,6 +62,19 @@ export class User implements IId, Stakeholder{
   }
 }
 
+export class Response {
+  status: number;
+  body: {
+    message: string;
+    content: any
+  };
+
+  constructor(status: number, body: {message: string; content: any}) {
+    this.status = status;
+    this.body = body;
+  }
+}
+
 export class UserGroup implements IId{
   id: string;
   name: string;

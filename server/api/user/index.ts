@@ -8,23 +8,16 @@ var router = express.Router()
   .use(json());
 
 router.route('/')
-  .get(function (req, res) {
-    res.json({message: 'Return all users'});
-    res.end();
-  })
+  .get( (req, res) => UserController.findAll(req, res) )
   .post((req, res) => UserController.create(req, res));
 
 router.route('/:userId')
   .get( (req, res) => UserController.findById(req, res) )
   .put( (req, res) => UserController.update(req, res) )
-  .delete(function (req, res) {
-    res.json({message: 'delete user'});
-    res.end();
-  })
+  .delete( (req, res) => UserController.delete(req, res) )
 ;
 router.route('/email/exists/:email')
   .get( (req, res) => UserController.emailExists(req, res) )
 ;
-
 
 module.exports = router;

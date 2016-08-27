@@ -15,7 +15,16 @@ var userSchema = mongoose.Schema({
   gravatarUrl: String,
   deactivated: String
 });
+
+var conceptSchema = mongoose.Schema({
+  comment: String,
+  name: String,
+  userId: String,
+  visibilityPublic: String
+});
+
 var MongoUser = mongoose.model("User", userSchema);
+var MongoConcept = mongoose.model("Concept", conceptSchema);
 
 
-export {db, MongoUser};
+export {db, MongoUser, MongoConcept};

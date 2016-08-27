@@ -6,7 +6,7 @@ import {logger} from "../../logger";
 var UserController = {
   findAll: function (req: any, res: any) {
     logger.debug(`Retrieving all users`);
-    MongoUser.find({}, function(err: any, users: Array<User>) {
+    MongoUser.find({}, function (err: any, users: Array<User>) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
       let response: Response = new Response(200, {message: 'OK', content: users});
       res.json(response.status, response.body);
@@ -58,23 +58,20 @@ var UserController = {
     }
   },
   delete: function (req: any, res: any) {
-    var body: User = req.body;
     var id = req.params.userId;
     logger.debug(`Delete user : ${id}`);
-    if (body) {
-      MongoUser.findByIdAndRemove(id, function (err: any, retVal: User) {
-        if (err) return res.json(500, {message: 'ERROR', content: err});
-        let response: Response = (retVal == null && new Response(500, {
-            message: 'user not found',
-            content: {}
-          })) || new Response(200, {message: 'removed user', content: retVal});
-        res.json(response.status, response.body);
-        res.end();
-      });
-    }
+    MongoUser.findByIdAndRemove(id, function (err: any, retVal: User) {
+      if (err) return res.json(500, {message: 'ERROR', content: err});
+      let response: Response = (retVal == null && new Response(500, {
+          message: 'user not found',
+          content: {}
+        })) || new Response(200, {message: 'removed user', content: retVal});
+      res.json(response.status, response.body);
+      res.end();
+    });
   },
   emailExists(req: any, res: any){
-    console.log(req.params.email);
+    logger.debug(`Find user bey email ${req.params.email}`);
     MongoUser.find({email: req.params.email}, function (err: any, users: Array<User>) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
       let response: Response = (users.length > 1 && new Response(200, {

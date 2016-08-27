@@ -1,35 +1,21 @@
 "use strict";
 import express = require('express');
 import {json} from 'body-parser';
+import {ConceptController} from './concept-controller';
 
 //noinspection TypeScriptValidateTypes
 var router = express.Router()
   .use(json());
 
 router.route('/')
-  .get(function (req, res) {
-    res.json({message: 'Get all for user'});
-    res.end();
-  })
-  .post(function (req, res) {
-    res.json({message: 'Create new for user'});
-    res.end();
-  })
+  .post( (req, res) => ConceptController.create(req, res) )
+  .get( (req, res) => ConceptController.findAll(req, res) )
 ;
 
 router.route('/:conceptId')
-  .get(function (req, res) {
-    res.json({message: 'Get certain concept'});
-    res.end();
-  })
-  .delete(function (req, res) {
-    res.json({message: 'delete complete concept'});
-    res.end()
-  })
-  .put(function (req, res) {
-    res.json({message: 'update'});
-    res.end()
-  })
+  .get( (req, res) => ConceptController.findById(req, res) )
+  .delete( (req, res) => ConceptController.delete(req, res) )
+  .put( (req, res) => ConceptController.update(req, res) )
 ;
 
 router.route('/:conceptId/step')

@@ -4,42 +4,59 @@ interface IId {
   id: string;
 }
 
-export interface Stakeholder{ email: string; login: string; passwd: string; }
-export interface KnowledgeFlow{ name: string; comment: string; rootSteps: Array<FlowStep>; visibiliyPublic: boolean}
+export interface Stakeholder { email: string; login: string; passwd: string;
+}
+export interface KnowledgeFlow { name: string; comment: string; rootSteps: Array<FlowStep>; visibiliyPublic: boolean
+}
 
 export class FlowStep {
   concern: string;
   childs: Array<FlowStep> = [];
 
-  constructor(concern: string) { this.concern = concern; }
+  constructor(concern: string) {
+    this.concern = concern;
+  }
 }
 
-export class MindFlow implements IId, KnowledgeFlow{
+export class MindFlow implements IId, KnowledgeFlow {
   visibiliyPublic: boolean;
   id: string;
   name: string;
   comment: string;
   rootSteps: Array<FlowStep> = [];
   linkedConcepts: Array<Concept> = [];
-  constructor(name: string, comment: string, visibiliyPublic: boolean) { this.name = name; this.comment = comment; this.visibiliyPublic = visibiliyPublic; }
+
+  constructor(name: string, comment: string, visibiliyPublic: boolean) {
+    this.name = name;
+    this.comment = comment;
+    this.visibiliyPublic = visibiliyPublic;
+  }
 }
 
-export class Concept implements IId, KnowledgeFlow{
+export class Concept implements IId, KnowledgeFlow {
   visibiliyPublic: boolean;
+  userId: string;
   id: string;
   name: string;
   comment: string;
   rootSteps: Array<FlowStep> = [];
   linkedConcepts: Array<Concept> = [];
-  constructor(name: string, comment: string, visibiliyPublic: boolean) { this.name = name; this.comment = comment; this.visibiliyPublic = visibiliyPublic; }
+
+  constructor(name: string, comment: string, visibiliyPublic: boolean, userId: string) {
+    this.name = name;
+    this.comment = comment;
+    this.visibiliyPublic = visibiliyPublic;
+    this.userId = userId;
+  }
 }
 
 
-export class Administrator implements IId, Stakeholder{
+export class Administrator implements IId, Stakeholder {
   id: string;
   email: string;
   login: string;
   passwd: string;
+
   constructor(email: string, login: string, passwd: string) {
     this.email = email;
     this.login = login;
@@ -47,7 +64,7 @@ export class Administrator implements IId, Stakeholder{
   }
 }
 
-export class User implements IId, Stakeholder{
+export class User implements IId, Stakeholder {
   id: string;
   email: string;
   login: string;
@@ -55,6 +72,7 @@ export class User implements IId, Stakeholder{
   gravatarUrl: string;
   deactivated: boolean = false;
   flows: Array<KnowledgeFlow> = [];
+
   constructor(email: string, login: string, passwd: string) {
     this.email = email;
     this.login = login;
@@ -75,10 +93,12 @@ export class Response {
   }
 }
 
-export class UserGroup implements IId{
+export class UserGroup implements IId {
   id: string;
   name: string;
   users: Array<User>;
 
-  constructor(name: string) { this.name = name; }
+  constructor(name: string) {
+    this.name = name;
+  }
 }

@@ -25,6 +25,20 @@ var UserController = {
       });
     }
   },
+
+  update: function(req: any, res: any){
+    var body: User = req.body;
+    var id = req.params.userId;
+    logger.debug(`Update user : ${id}`);
+    if(body){
+      MongoUser.findByIdAndUpdate(id, { $set: body}, function (err: any, retVal: User) {
+        if (err) return res.json({status: 'ERROR', message: err});
+        let responseMessage: string = retVal == null && 'user not found' || 'updated user'
+        res.json({status: 'ERROR', message: responseMessage});
+        res.end();
+      });
+    }
+  },
   emailExists(req: any, res: any){
     console.log(req.params.email);
     MongoUser.find({ email: req.params.email }, function(err: any, users: Array<User>){

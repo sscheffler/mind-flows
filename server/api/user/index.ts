@@ -16,10 +16,7 @@ router.route('/')
 
 router.route('/:userId')
   .get( (req, res) => UserController.findById(req, res) )
-  .put(function (req, res) {
-    res.json({message: 'update user'});
-    res.end();
-  })
+  .put( (req, res) => UserController.update(req, res) )
   .delete(function (req, res) {
     res.json({message: 'delete user'});
     res.end();

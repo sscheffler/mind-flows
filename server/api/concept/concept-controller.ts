@@ -1,5 +1,5 @@
 "use strict";
-import {MongoConcept, MongoFlowStep} from "../../backend/mongo-connector";
+import {MongoConcept} from "../../backend/mongo-connector";
 import {Concept, Response, FlowStep} from "../../../model/model";
 import {logger} from "../../logger";
 

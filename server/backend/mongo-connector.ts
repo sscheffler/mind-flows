@@ -14,6 +14,12 @@ var userSchema = mongoose.Schema({
   deactivated: String
 });
 
+var adminSchema = mongoose.Schema({
+  email: String,
+  login: String,
+  passwd: String
+});
+
 var conceptSchema = mongoose.Schema({
   comment: String,
   name: String,
@@ -28,7 +34,8 @@ var flowStepSchema = mongoose.Schema({
 });
 
 var MongoUser = mongoose.model("User", userSchema);
+var MongoAdministrator = mongoose.model("Administrator", adminSchema);
 var MongoConcept = mongoose.model("Concept", conceptSchema);
 var MongoFlowStep= mongoose.model("FlowStep", flowStepSchema);
 
-export {db, MongoUser, MongoConcept, MongoFlowStep};
+export {db, MongoUser, MongoConcept, MongoFlowStep, MongoAdministrator};

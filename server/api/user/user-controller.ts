@@ -29,8 +29,9 @@ var UserController = {
     var body: User = req.body;
     if (body) {
       logger.debug(`Create user: ${body}`);
-      let user = new MongoUser(body);
-      user.save(function (err: any, user: User) {
+      body.deactivated = false;
+      let mongoUser = new MongoUser(body);
+      mongoUser.save(function (err: any, user: User) {
         let response: Response = (err && new Response(500, {
             message: 'ERROR',
             content: err

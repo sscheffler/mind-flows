@@ -1,6 +1,7 @@
 "use strict";
 import express = require('express');
 import {json} from 'body-parser';
+import {AdministrationController} from './administration-controller'
 
 
 //noinspection TypeScriptValidateTypes
@@ -8,15 +9,9 @@ var router = express.Router()
   .use(json());
 
 router.route('/')
-  .get(function (req, res) {
-    res.json({message: 'Return administrator'});
-    res.end();
-  });
+  .post( (req, res) => AdministrationController.createAdmin(req, res) );
 
-router.route('/deactivate/:userId/:deactivate')
-  .put(function (req, res) {
-    res.json({message: 'Will activate / deactivate user'});
-    res.end();
-  });
+router.route('/:userId/deactivate/:deactivate')
+  .put( (req, res) => AdministrationController.deactivateUser(req, res) );
 
 module.exports = router;

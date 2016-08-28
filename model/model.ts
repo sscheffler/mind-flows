@@ -87,6 +87,20 @@ export class Response {
     content: any
   };
 
+  static aError = function(message: string = 'ERROR', content: any = {}){
+    return new Response(500, {
+      message: message,
+      content: content
+    });
+  };
+
+  static aSuccess = function(message: string = 'OK', content: any = {}){
+    return new Response(200, {
+      message: message,
+      content: content
+    });
+  };
+
   constructor(status: number, body: {message: string; content: any}) {
     this.status = status;
     this.body = body;

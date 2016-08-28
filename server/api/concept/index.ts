@@ -19,13 +19,7 @@ router.route('/:conceptId')
 ;
 
 router.route('/:conceptId/step')
-  .post(function (req, res) {
-    res.json({message: 'Add step to concept'});
-    res.end();
-  })
-  .post(function (req, res) {
-    res.json({message: 'Remove step to concept'});
-    res.end();
-  })
+  .post( (req, res) => ConceptController.addStep(req, res) )
+  .delete( (req, res) => ConceptController.deleteStep(req, res) )
 ;
 module.exports = router;

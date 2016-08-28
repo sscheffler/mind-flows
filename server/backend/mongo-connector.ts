@@ -1,6 +1,4 @@
 "use strict";
-import {logger} from "../logger";
-import {User} from "../../model/model";
 var mongoose = require('mongoose');
 
 var conn_str = "mongodb://user:user@ds161225.mlab.com:61225/minddb";
@@ -20,11 +18,17 @@ var conceptSchema = mongoose.Schema({
   comment: String,
   name: String,
   userId: String,
-  visibilityPublic: String
+  visibilityPublic: String,
+  rootSteps: []
+});
+
+var flowStepSchema = mongoose.Schema({
+  concern: String,
+  childs: []
 });
 
 var MongoUser = mongoose.model("User", userSchema);
 var MongoConcept = mongoose.model("Concept", conceptSchema);
+var MongoFlowStep= mongoose.model("FlowStep", flowStepSchema);
 
-
-export {db, MongoUser, MongoConcept};
+export {db, MongoUser, MongoConcept, MongoFlowStep};

@@ -1,6 +1,6 @@
 "use strict";
-import {MongoConcept} from "../../backend/mongo-connector";
-import {Concept, Response} from "../../../model/model";
+import {MongoConcept, MongoFlowStep} from "../../backend/mongo-connector";
+import {Concept, Response, FlowStep} from "../../../model/model";
 import {logger} from "../../logger";
 
 var ConceptController = {
@@ -76,8 +76,75 @@ var ConceptController = {
       });
     }
   },
-
-
+  addStep: function (req: any, res: any) {
+    var body: FlowStep = req.body;
+    var id = req.params.conceptId;
+    logger.debug(`AddRootStep to concept: ${id}`);
+    if (body) {
+      MongoConcept.findOne({_id: id}, function (err: any, concept: Concept)
+      {
+        if(concept) {
+          concept.rootSteps.push(body);
+          MongoConcept.findByIdAndUpdate(id, {$set: concept}, function (err: any, retVal: Concept) {
+            if (err) return res.json(500, {message: 'ERROR', content: err});
+            let response: Response = (retVal == null && new Response(500, {
+                message: 'concept not found',
+                content: {}
+              })) || new Response(200, {message: 'added root step to concept', content: {}});
+            res.json(response.status, response.body);
+            res.end();
+          });
+        } else {
+          let response: Response = new Response(500, {
+            message: 'concept not found',
+            content: {}
+          });
+          res.json(response.status, response.body);
+          res.end();
+        }
+      });
+    }
+  },
+  deleteStep: function (req: any, res: any) {
+    var body: FlowStep = req.body;
+    var id = req.params.conceptId;
+    logger.debug(`Remove RootStep from Concept: ${id}`);
+    if (body) {
+      MongoConcept.findOne({_id: id}, function (err: any, concept: Concept) {
+        if (concept) {
+          for (let idx = 0; idx < concept.rootSteps.length; idx++) {
+            if(concept.rootSteps[idx].concern === body.concern){
+              var step = concept.rootSteps.splice(idx);
+              logger.debug(`Removing ${step}`);
+              MongoConcept.findByIdAndUpdate(id, {$set: concept},
+                (err: any, retVal: Concept) => defaultUpdate(res, err, retVal));
+            }
+          }
+        }
+      })
+    } else {
+        let response: Response = new Response(500, {
+          message: 'concept not found',
+          content: {}
+        });
+        res.json(response.status, response.body);
+        res.end();
+      }
+    }
 };
 
 export {ConceptController}
+
+//---------------------privates----------------------------
+
+function defaultUpdate(res: any, err: any, retVal: any){
+  if (err) return res.json(500, {message: 'ERROR', content: err});
+  let response: Response = (retVal == null && new Response(500, {
+      message: 'item not found',
+      content: {}
+    })) || new Response(200, {message: 'updated', content: {}});
+  res.json(response.status, response.body);
+  res.end();
+}
+
+

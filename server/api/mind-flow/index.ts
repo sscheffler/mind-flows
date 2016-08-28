@@ -19,14 +19,8 @@ router.route('/:flowId')
 ;
 
 router.route('/:flowId/step')
-  .post(function (req, res) {
-    res.json({message: 'Add step to flow'});
-    res.end();
-  })
-  .post(function (req, res) {
-    res.json({message: 'Remove step to flow'});
-    res.end();
-  })
+  .post( (req, res) => MindFlowController.addStep(req, res) )
+  .delete( (req, res) => MindFlowController.deleteStep(req, res) )
 ;
 
 router.route('/:flowId/concept/:concept')

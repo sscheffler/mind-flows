@@ -74,18 +74,13 @@ var ConceptController = {
           concept.rootSteps.push(body);
           MongoConcept.findByIdAndUpdate(id, {$set: concept}, function (err: any, retVal: Concept) {
             if (err) return res.json(500, {message: 'ERROR', content: err});
-            let response: Response = (retVal == null && new Response(500, {
-                message: 'concept not found',
-                content: {}
-              })) || new Response(200, {message: 'added root step to concept', content: {}});
+            let response: Response = (retVal == null && Response.aError({message: 'concept not found'}))
+              || Response.aSuccess();
             res.json(response.status, response.body);
             res.end();
           });
         } else {
-          let response: Response = new Response(500, {
-            message: 'concept not found',
-            content: {}
-          });
+          let response: Response = Response.aError({message: 'concept not found'});
           res.json(response.status, response.body);
           res.end();
         }

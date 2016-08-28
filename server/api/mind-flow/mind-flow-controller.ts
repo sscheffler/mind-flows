@@ -1,6 +1,6 @@
 "use strict";
-import {MongoUser, MongoMindFlow} from "../../backend/mongo-connector";
-import {Response, User, MindFlow} from "../../../model/model";
+import {MongoMindFlow} from "../../backend/mongo-connector";
+import {Response, FlowStep, MindFlow} from "../../../model/model";
 import {logger} from "../../logger";
 
 var MindFlowController = {
@@ -58,7 +58,53 @@ var MindFlowController = {
         res.end();
       });
     }
-  }
+  },
+  addStep: function (req: any, res: any) {
+    var body: FlowStep = req.body;
+    var id = req.params.flowId;
+    logger.debug(`AddRootStep to mindFlow: ${id}`);
+    console.log(JSON.stringify(body));
+    if (body) {
+      MongoMindFlow.findOne({_id: id}, function (err: any, mindFlow: MindFlow) {
+        if (mindFlow) {
+          mindFlow.rootSteps.push(body);
+          MongoMindFlow.findByIdAndUpdate(id, {$set: mindFlow}, function (err: any, retVal: MindFlow) {
+            if (err) return res.json(500, {message: 'ERROR', content: err});
+            let response: Response = (retVal == null && Response.aError({message: 'mindFlow not found'}))
+              || Response.aSuccess();
+            res.json(response.status, response.body);
+            res.end();
+          });
+        } else {
+          let response: Response = Response.aError({message: 'mindFlow not found'});
+          res.json(response.status, response.body);
+          res.end();
+        }
+      });
+    }
+  },
+  deleteStep: function (req: any, res: any) {
+    var body: FlowStep = req.body;
+    var id = req.params.flowId;
+    logger.debug(`Remove RootStep from MindFlow: ${id}`);
+    if (body) {
+      MongoMindFlow.findOne({_id: id}, function (err: any, mindFlow: MindFlow) {
+        if (mindFlow) {
+          for (let idx = 0; idx < mindFlow.rootSteps.length; idx++) {
+            if (mindFlow.rootSteps[idx].concern === body.concern) {
+              var step = mindFlow.rootSteps.splice(idx);
+              logger.debug(`Removing ${step}`);
+              MongoMindFlow.findByIdAndUpdate(id, {$set: mindFlow},
+                (err: any, retVal: MindFlow) => defaultUpdate(res, err, retVal));
+            }
+          }
+        }
+      })
+    } else {
+      let response: Response = Response.aError({message: 'concept not found'});
+      res.json(response.status, response.body);
+      res.end();
+    }  }
 
 };
 

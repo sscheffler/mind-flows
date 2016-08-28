@@ -8,7 +8,7 @@ var UserController = {
     logger.debug(`Retrieving all users`);
     MongoUser.find({}, function (err: any, users: Array<User>) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
-      let response: Response = new Response(200, {message: 'OK', content: users});
+      let response: Response = Response.aSuccess(users);
       res.json(response.status, response.body);
       res.end();
     });
@@ -17,10 +17,7 @@ var UserController = {
     let id = req.params.userId;
     logger.debug(`Search for user : ${id}`);
     MongoUser.findOne({_id: id}, function (err: any, user: User) {
-      let response: Response = (err && new Response(500, {
-          message: 'ERROR',
-          content: err
-        })) || new Response(200, {message: 'OK', content: user});
+      let response: Response = (err &&  Response.aError(err)) || Response.aSuccess(user);
       res.json(response.status, response.body);
       res.end();
     });
@@ -32,10 +29,7 @@ var UserController = {
       body.deactivated = false;
       let mongoUser = new MongoUser(body);
       mongoUser.save(function (err: any, user: User) {
-        let response: Response = (err && new Response(500, {
-            message: 'ERROR',
-            content: err
-          })) || new Response(200, {message: 'OK', content: user});
+        let response: Response = (err && Response.aError(err)) || Response.aSuccess(user);
         res.json(response.status, response.body);
         res.end();
       });
@@ -49,24 +43,18 @@ var UserController = {
     if (body) {
       MongoUser.findByIdAndUpdate(id, {$set: body}, function (err: any, retVal: User) {
         if (err) return res.json(500, {message: 'ERROR', content: err});
-        let response: Response = (retVal == null && new Response(500, {
-            message: 'user not found',
-            content: {}
-          })) || new Response(200, {message: 'updated user', content: {}});
+        let response: Response = (retVal == null && Response.aError({message: 'User not found'})) || Response.aSuccess();
         res.json(response.status, response.body);
         res.end();
       });
     }
   },
-  delete: function (req: any, res: any) {
+  deleteUser: function (req: any, res: any) {
     var id = req.params.userId;
     logger.debug(`Delete user : ${id}`);
     MongoUser.findByIdAndRemove(id, function (err: any, retVal: User) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
-      let response: Response = (retVal == null && new Response(500, {
-          message: 'user not found',
-          content: {}
-        })) || new Response(200, {message: 'removed user', content: retVal});
+      let response: Response = (retVal == null && Response.aError({message: 'User not found'})) || Response.aSuccess(retVal);
       res.json(response.status, response.body);
       res.end();
     });
@@ -75,11 +63,7 @@ var UserController = {
     logger.debug(`Find user bey email ${req.params.email}`);
     MongoUser.find({email: req.params.email}, function (err: any, users: Array<User>) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
-      let response: Response = (users.length > 1 && new Response(200, {
-          message: '1',
-          content: {}
-        })) || new Response(200, {message: '0', content: {}});
-
+      let response: Response = (users.length > 1 && Response.aSuccess({found: true})) || Response.aSuccess({found: false});
       res.json(response.status, response.body);
       res.end();
     });

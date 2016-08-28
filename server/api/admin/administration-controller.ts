@@ -10,10 +10,7 @@ var AdministrationController = {
       logger.debug(`Create administrator: ${body}`);
       let mongoAdmin = new MongoAdministrator(body);
       mongoAdmin.save(function (err: any, admin: Administrator) {
-        let response: Response = (err && new Response(500, {
-            message: 'ERROR',
-            content: err
-          })) || new Response(200, {message: 'OK', content: admin});
+        let response: Response = (err && Response.aError(err)) || Response.aSuccess(admin);
         res.json(response.status, response.body);
         res.end();
       });
@@ -28,7 +25,7 @@ var AdministrationController = {
         MongoUser.findByIdAndUpdate(userId, {$set: user},
           (err: any, retVal: User) => defaultUpdate(res, err, retVal));
       }else {
-        let response: Response = Response.aError('User not found');
+        let response: Response = Response.aError({message: 'User not found'});
         res.json(response.status, response.body);
         res.end();
       }
@@ -42,7 +39,7 @@ export {AdministrationController}
 
 function defaultUpdate(res: any, err: any, retVal: any){
   if (err) return res.json(500, {message: 'ERROR', content: err});
-  let response: Response = (retVal == null && Response.aError('not found'))
+  let response: Response = (retVal == null && Response.aError({message: 'not found'}))
     || Response.aSuccess();
   res.json(response.status, response.body);
   res.end();

@@ -14,7 +14,7 @@ router.route('/')
 router.route('/:userId')
   .get( (req, res) => UserController.findById(req, res) )
   .put( (req, res) => UserController.update(req, res) )
-  .delete( (req, res) => UserController.delete(req, res) )
+  .delete( (req, res) => UserController.deleteUser(req, res) )
 ;
 router.route('/email/exists/:email')
   .get( (req, res) => UserController.emailExists(req, res) )

@@ -1,4 +1,5 @@
 "use strict";
+import Any = jasmine.Any;
 var mongoose = require('mongoose');
 
 var conn_str = "mongodb://user:user@ds161225.mlab.com:61225/minddb";
@@ -28,6 +29,14 @@ var conceptSchema = mongoose.Schema({
   rootSteps: []
 });
 
+var mindFlowSchema = mongoose.Schema({
+  comment: String,
+  name: String,
+  userId: String,
+  visibilityPublic: String,
+  rootSteps: []
+});
+
 var flowStepSchema = mongoose.Schema({
   concern: String,
   childs: []
@@ -36,6 +45,7 @@ var flowStepSchema = mongoose.Schema({
 var MongoUser = mongoose.model("User", userSchema);
 var MongoAdministrator = mongoose.model("Administrator", adminSchema);
 var MongoConcept = mongoose.model("Concept", conceptSchema);
+var MongoMindFlow = mongoose.model("MindFlow", mindFlowSchema);
 var MongoFlowStep= mongoose.model("FlowStep", flowStepSchema);
 
-export {db, MongoUser, MongoConcept, MongoFlowStep, MongoAdministrator};
+export {db, MongoUser, MongoConcept, MongoMindFlow, MongoFlowStep, MongoAdministrator};

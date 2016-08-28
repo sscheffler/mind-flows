@@ -9,15 +9,10 @@ var ConceptController = {
     logger.debug(`Find All concepts for user : ${userId}`);
     MongoConcept.find({userId: userId}, function (err: any, concepts: Array<Concept>) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
-      let response: Response = new Response(200, {
-          message: 'OK',
-          content: concepts
-        });
-
+      let response: Response = Response.aSuccess(concepts);
       res.json(response.status, response.body);
       res.end();
     });
-
   },
   create: function (req: any, res: any) {
     var body: Concept = req.body;
@@ -37,8 +32,7 @@ var ConceptController = {
   findById: function (req: any, res: any) {
     var id = req.params.conceptId;
     logger.debug(`find concept by Id: ${id}`);
-    MongoConcept.findOne({_id: id}, function (err: any, concept: Concept)
-    {
+    MongoConcept.findOne({_id: id}, function (err: any, concept: Concept) {
       let response: Response = (err && new Response(500, {
           message: 'ERROR',
           content: err
@@ -52,10 +46,7 @@ var ConceptController = {
     logger.debug(`delete concept by Id: ${id}`);
     MongoConcept.findByIdAndRemove(id, function (err: any, retVal: Concept) {
       if (err) return res.json(500, {message: 'ERROR', content: err});
-      let response: Response = (retVal == null && new Response(500, {
-          message: 'concept not found',
-          content: {}
-        })) || new Response(200, {message: 'removed user', content: retVal});
+      let response: Response = (retVal == null && Response.aError({message: 'mind-flow not found'})) || Response.aSuccess(retVal);
       res.json(response.status, response.body);
       res.end();
     });
@@ -67,10 +58,7 @@ var ConceptController = {
     if (body) {
       MongoConcept.findByIdAndUpdate(id, {$set: body}, function (err: any, retVal: Concept) {
         if (err) return res.json(500, {message: 'ERROR', content: err});
-        let response: Response = (retVal == null && new Response(500, {
-            message: 'concept not found',
-            content: {}
-          })) || new Response(200, {message: 'updated concept', content: {}});
+        let response: Response = (retVal == null && Response.aError({message: 'concept not found'})) || Response.aSuccess();
         res.json(response.status, response.body);
         res.end();
       });
@@ -81,9 +69,8 @@ var ConceptController = {
     var id = req.params.conceptId;
     logger.debug(`AddRootStep to concept: ${id}`);
     if (body) {
-      MongoConcept.findOne({_id: id}, function (err: any, concept: Concept)
-      {
-        if(concept) {
+      MongoConcept.findOne({_id: id}, function (err: any, concept: Concept) {
+        if (concept) {
           concept.rootSteps.push(body);
           MongoConcept.findByIdAndUpdate(id, {$set: concept}, function (err: any, retVal: Concept) {
             if (err) return res.json(500, {message: 'ERROR', content: err});
@@ -113,7 +100,7 @@ var ConceptController = {
       MongoConcept.findOne({_id: id}, function (err: any, concept: Concept) {
         if (concept) {
           for (let idx = 0; idx < concept.rootSteps.length; idx++) {
-            if(concept.rootSteps[idx].concern === body.concern){
+            if (concept.rootSteps[idx].concern === body.concern) {
               var step = concept.rootSteps.splice(idx);
               logger.debug(`Removing ${step}`);
               MongoConcept.findByIdAndUpdate(id, {$set: concept},
@@ -123,21 +110,18 @@ var ConceptController = {
         }
       })
     } else {
-        let response: Response = new Response(500, {
-          message: 'concept not found',
-          content: {}
-        });
-        res.json(response.status, response.body);
-        res.end();
-      }
+      let response: Response = Response.aError({message: 'concept not found'});
+      res.json(response.status, response.body);
+      res.end();
     }
+  }
 };
 
 export {ConceptController}
 
 //---------------------privates----------------------------
 
-function defaultUpdate(res: any, err: any, retVal: any){
+function defaultUpdate(res: any, err: any, retVal: any) {
   if (err) return res.json(500, {message: 'ERROR', content: err});
   let response: Response = (retVal == null && new Response(500, {
       message: 'item not found',

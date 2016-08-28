@@ -21,15 +21,17 @@ export class FlowStep {
 export class MindFlow implements IId, KnowledgeFlow {
   visibiliyPublic: boolean;
   id: string;
+  userId: string;
   name: string;
   comment: string;
   rootSteps: Array<FlowStep> = [];
   linkedConcepts: Array<Concept> = [];
 
-  constructor(name: string, comment: string, visibiliyPublic: boolean) {
+  constructor(name: string, comment: string, visibiliyPublic: boolean, userId: string) {
     this.name = name;
     this.comment = comment;
     this.visibiliyPublic = visibiliyPublic;
+    this.userId = userId;
   }
 }
 
@@ -49,7 +51,6 @@ export class Concept implements IId, KnowledgeFlow {
     this.userId = userId;
   }
 }
-
 
 export class Administrator implements IId, Stakeholder {
   id: string;

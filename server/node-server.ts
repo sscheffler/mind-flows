@@ -31,6 +31,7 @@ export class DefaultServer implements INodeServer{
 
   constructor(config: IServerConfig) {
     this.app = express();
+    require('./config/express')(this.app);
     this.config = config;
   }
 

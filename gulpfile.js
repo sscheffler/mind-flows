@@ -119,7 +119,7 @@ gulp.task(tasks.browserSync,[] , function () {
     ];
 
     browserSync.init(null, {
-        proxy: "http://localhost:6001/",
+        proxy: "http://localhost:6001",
         files: files,
         browser: "firefox",
         port: 6002
@@ -130,6 +130,8 @@ gulp.task(tasks.browserSync,[] , function () {
         .on('change', browserSync.reload);*/
     gulp.watch(baseBrowserSyncFiles)
         .on('change', function(){ gulp.run(tasks.node) });
+    gulp.watch([paths.client + '/**/*.html'])
+        .on('change', browserSync.reload);
 });
 
 
@@ -137,7 +139,7 @@ gulp.task(tasks.browserSync,[] , function () {
  * default task - builds the environment: mainly for calling in bluemix
  */
 gulp.task(tasks.default, function () {
-    runSequence(tasks.node, tasks.watch, tasks.browserSync);
+    runSequence(tasks.watch, tasks.browserSync);
 });
 
 //---------------------privates----------------------------

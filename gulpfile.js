@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     del = require('del'),
     spawn = require('child_process').spawn,
+    pug = require('gulp-pug'),
     browserSync = require('browser-sync').create(),
     node
     ;
@@ -43,6 +44,16 @@ var tasks = {
     pug: 'pug',
     browserSync: 'browser-sync'
 };
+
+/**
+ * transform pug templates
+ */
+gulp.task(tasks.pug, function () {
+    return gulp.src([paths.client + '/**/*.pug'], {base: './'})
+        .pipe(pug())
+        .on('error', handleError)
+        .pipe(gulp.dest('./'));
+});
 
 /**
  * clean up generation folder
@@ -99,6 +110,7 @@ gulp.task(tasks.build, function () {
 
 gulp.task(tasks.watch, function () {
     gulp.watch(baseTranspileFiles, [tasks.transpile]);
+    gulp.watch([paths.client + '/**/*.pug'],[tasks.pug]);
 });
 
 gulp.task(tasks.browserSync,[] , function () {

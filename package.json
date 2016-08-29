@@ -25,6 +25,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-notify": "^2.2.0",
+    "gulp-pug": "^3.0.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
     "gulp-util": "^3.0.7",

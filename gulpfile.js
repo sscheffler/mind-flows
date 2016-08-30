@@ -46,6 +46,26 @@ var tasks = {
 };
 
 /**
+ * inject files in client/index.html
+ *
+ * bower_components
+ */
+gulp.task(tasks.inject, function () {
+    var cssSrc = gulp.src([paths.dist + '/' + paths.client + '/css/**/*.css'], {read: false});
+    var bowerSrc = gulp.src(bower({
+        overrides: {
+            'font-awesome': {
+                main: ['./css/font-awesome.min.css']
+            }
+        }
+    }), {read: false});
+    return gulp.src(paths.client + '/index.html', {base: './'})
+        .pipe(inject(cssSrc, {ignorePath: 'client'}))
+        .pipe(inject(bowerSrc, {name: 'bower', relative: true}))
+        .pipe(paths.client);
+});
+
+/**
  * transform pug templates
  */
 gulp.task(tasks.pug, function () {
@@ -105,7 +125,9 @@ gulp.task(tasks.node, function () {
 gulp.task(tasks.build, function () {
     gutil.log('Building environment');
     runSequence(
-        tasks.transpile);
+        tasks.transpile,
+        tasks.inject
+    );
 });
 
 gulp.task(tasks.watch, function () {

@@ -1,0 +1,23 @@
+{
+  "name": "CCP-Tools",
+  "description": "",
+  "main": "client/index.html",
+  "authors": [
+    "Stefan Scheffler <stefanscheffler82@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "json3": "^3.3.2",
+    "jquery": "^3.1.0",
+    "font-awesome": "^4.6.3"
+  }
+}

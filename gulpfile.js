@@ -13,6 +13,8 @@ var gulp = require('gulp'),
     spawn = require('child_process').spawn,
     pug = require('gulp-pug'),
     browserSync = require('browser-sync').create(),
+    bower = require('main-bower-files'),
+    inject = require('gulp-inject'),
     node
     ;
 
@@ -60,9 +62,9 @@ gulp.task(tasks.inject, function () {
         }
     }), {read: false});
     return gulp.src(paths.client + '/index.html', {base: './'})
-        .pipe(inject(cssSrc, {ignorePath: 'client'}))
+        //.pipe(inject(cssSrc, {ignorePath: 'client'}))
         .pipe(inject(bowerSrc, {name: 'bower', relative: true}))
-        .pipe(paths.client);
+        .pipe(gulp.dest('.'));
 });
 
 /**
